@@ -1,0 +1,40 @@
+package codigo;
+
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+    
+    public void syntax_error(Symbol s) {
+        this.s = s;
+    }
+
+    public Symbol getS() {
+        return this.s;
+    }
+:};
+
+/* Declaración de terminales */
+terminal Inicio, Final, Latitud, Longitud, SignoIgual, Tiempo, Velocidad, Menor, Mayor, Numero, Letra, Fecha, Horasegmin, Guion, ERROR;
+
+/* Declaración de no terminales */
+non terminal INICIO, LISTA_TRACKPOINTS, TRACKPOINT, ATRIBUTOS, ATRIBUTO;
+
+/* Regla de inicio */
+start with INICIO;
+
+/* Reglas de producción */
+INICIO ::= LISTA_TRACKPOINTS;
+
+LISTA_TRACKPOINTS ::= TRACKPOINT LISTA_TRACKPOINTS
+                    | /* vacío */;
+
+TRACKPOINT ::= Inicio ATRIBUTOS Final;  // Asegúrate de que TRACKPOINT contiene múltiples ATRIBUTOS
+
+ATRIBUTOS ::= ATRIBUTO ATRIBUTOS
+            | /* vacío */;  // Permite la ausencia de atributos
+
+ATRIBUTO ::= Latitud SignoIgual Numero Longitud SignoIgual Numero Tiempo SignoIgual Fecha Horasegmin Velocidad SignoIgual Numero;
+           
+         
